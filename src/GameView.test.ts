@@ -1,6 +1,6 @@
 import { GameView } from "./GameView";
 
-describe.skip("GameView", () => {
+describe("GameView", () => {
   let el: HTMLElement;
   beforeEach(() => {
     el = document.createElement("div");
@@ -37,6 +37,7 @@ describe.skip("GameView", () => {
         [0, 1],
         [1, 0]
       ]);
+      //console.log("FIELD ", el.querySelector(".gameField")?.innerHTML);
       expect(el.querySelectorAll(".cell").length).toBe(4);
       expect(el.querySelectorAll(".cell.cell--alive").length).toBe(2);
       expect(el.querySelectorAll(".cell.cell--dead").length).toBe(2);
@@ -76,7 +77,8 @@ describe.skip("GameView", () => {
       expect(onCellClick).toHaveBeenCalledWith(1, 0);
     });
     it("renders correct game state on .updateGameState", () => {
-      expect(
+        //console.log(el.querySelector(".gameControls")?.innerHTML);
+        expect(
         el.querySelector(".run-button.run-button--stopped")
       ).not.toBeNull();
       expect(

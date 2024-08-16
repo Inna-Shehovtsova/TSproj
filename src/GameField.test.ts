@@ -1,6 +1,6 @@
 import { GameField } from "./GameField";
 
-describe.skip("GameField", () => {
+describe("GameField", () => {
   describe("public interface", () => {
     it("is a class", () => {
       expect(GameField).toBeInstanceOf(Function);
@@ -23,6 +23,7 @@ describe.skip("GameField", () => {
     });
 
     it("supports settings side from constructor", () => {
+      
       expect(gameField.getState()).toEqual([
         [0, 0],
         [0, 0],
@@ -32,16 +33,19 @@ describe.skip("GameField", () => {
 
     it("has .toggleCellState method", () => {
       expect(gameField.toggleCellState).toBeInstanceOf(Function);
+      //console.log('l 36   ', gameField.getState());
       const [x1, y1] = [0, 0];
       const [x2, y2] = [1, 2];
       gameField.toggleCellState(x1, y1);
       gameField.toggleCellState(x2, y2);
+      
       expect(gameField.getState()).toEqual([
         [1, 0],
         [0, 0],
         [0, 1]
       ]);
       gameField.toggleCellState(x2, y2);
+      
       expect(gameField.getState()).toEqual([
         [1, 0],
         [0, 0],
@@ -55,12 +59,14 @@ describe.skip("GameField", () => {
       const [x2, y2] = [1, 2];
       gameField.toggleCellState(x1, y1);
       gameField.toggleCellState(x2, y2);
+      //console.log('l 62  ', gameField.getState());
       expect(gameField.getState()).toEqual([
         [1, 0],
         [0, 0],
         [0, 1]
       ]);
       gameField.nextGeneration();
+      //console.log('l 69  ', gameField.getState());
       expect(gameField.getState()).toEqual([
         [0, 0],
         [0, 0],
@@ -69,12 +75,14 @@ describe.skip("GameField", () => {
       gameField.toggleCellState(0, 0);
       gameField.toggleCellState(1, 0);
       gameField.toggleCellState(0, 1);
+      //console.log('l 78  ', gameField.getState());
       expect(gameField.getState()).toEqual([
         [1, 1],
         [1, 0],
         [0, 0]
       ]);
       gameField.nextGeneration();
+      //console.log('l 85  ', gameField.getState());
       expect(gameField.getState()).toEqual([
         [1, 1],
         [1, 1],

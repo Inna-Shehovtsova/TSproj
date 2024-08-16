@@ -1,6 +1,6 @@
 import { Game } from "./Game";
-//import { IGameField } from "./GameField";
-//import { IGameView } from "./GameView";
+import { IGameField } from "./GameField";
+import { IGameView } from "./GameView";
 import { Cell } from "./types/Cell";
 
 const sleep = (x: number) => new Promise((resolve) => setTimeout(resolve, x));
