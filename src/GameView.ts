@@ -34,10 +34,10 @@ export class GameView implements IGameView {
 
  
   updateGameField(field: Cell[][]):void{
+    console.log('!!!!updateGameField inner ', field );
     if((this.state.height != field.length) || (this.state.width != field[0].length)){
-      
-      this.cbFn.get("onFieldSizeChange")?.forEach((v1, v2,set)=>{
-             v1(field[0].length, field.length)});  
+      console.log('updateGameField .updateGameState', field[0].length, field.length);
+      this.updateGameState({width:field[0].length ,height:field.length});
     }
     for(let i =0; i< this.state.height; i++){      
       for (let j = 0; j< this.state.width; j++){        
@@ -53,19 +53,22 @@ export class GameView implements IGameView {
       }  
     }
   }
+
   updateGameState(state: {
     width?: number;
     height?: number;
     isRunning?: boolean;
   }):void{
+    console.log('updateGameState ', state );
     state.width??=this.state.width;
     state.height??=this.state.height;
     if((state.width != this.state.width)
     || (state.width != this.state.height)){      
       this.cbFn.get("onFieldSizeChange")?.forEach((v1, v2,set)=>{v1(state.width, state.height)});
-    }
+    }    
     state.isRunning??=this.state.isRunning;
-    this.cbFn.get("onGameStateChange")?.forEach((v1, v2,set)=>{v1(state.isRunning)});
+    if(state.isRunning != this.state.isRunning)
+      this.cbFn.get("onGameStateChange")?.forEach((v1, v2,set)=>{v1(state.isRunning)});    
   }
  
   onCellClick(cb: (x: number, y: number) => void):void{       
@@ -90,7 +93,7 @@ export class GameView implements IGameView {
     f.add(cb);
     this.cbFn.set("onFieldSizeChange", f);
   }
-  clickPlay(){ 
+ /* clickPlay(){ 
     let w = Number(
       (this.rootEl.querySelector(
         "input[type='number'].field-size.field-size--width"
@@ -100,8 +103,9 @@ export class GameView implements IGameView {
         "input[type='number'].field-size.field-size--height" 
       ) as HTMLInputElement).value
       );
+    console.log(' clickPlay() update call');
     this.updateGameState({width:w, height:h, isRunning:!this.state});
-  }
+  }*/
   constructor( el: HTMLElement){
     this.rootEl = el;  
     this.cssAlive = "cell--alive";
@@ -121,13 +125,13 @@ export class GameView implements IGameView {
     gameControl.innerHTML = `<form>
                     <input type='number' class="field-size field-size--width"></input>
                     <input type='number' class="field-size field-size--height"></input>
-                    <button type="button" class="run-button">${this.bTextRun}
+                    <button type="button" class="run-button run-button--stopped">${this.bTextRun}
                     </button></form>`;
    
     this.rootEl.insertAdjacentElement("beforeend", gameControl);
     this.rootEl.querySelector(".run-button")?.addEventListener(
       "click",
-      ()=>{
+      (ev)=>{
         let w = Number(
           (this.rootEl.querySelector(
             "input[type='number'].field-size.field-size--width"
@@ -137,12 +141,15 @@ export class GameView implements IGameView {
             "input[type='number'].field-size.field-size--height" 
           ) as HTMLInputElement).value
           );
+        if(ev.bubbles)
         this.updateGameState({width:w, height:h, isRunning:!this.state.isRunning});
       }
     );
+    //for jest test
+    this.rootEl.querySelector(".run-button").innerHTML = `${this.bTextRun}`;
     this.rootEl.querySelector(".field-size.field-size--width")?.addEventListener(
       "change",
-      ()=>{
+      (ev)=>{if(ev.bubbles){
         let w = Number(
           (this.rootEl.querySelector(
             "input[type='number'].field-size.field-size--width"
@@ -152,12 +159,14 @@ export class GameView implements IGameView {
             "input[type='number'].field-size.field-size--height" 
           ) as HTMLInputElement).value
           );
-        this.updateGameState({width:w, height:h, isRunning:this.state.isRunning});
+        
+        console.log("field-size--width updateGameState");
+        this.updateGameState({width:w, height:h});}
       }
     );
     this.rootEl.querySelector(".field-size.field-size--height")?.addEventListener(
       "change",
-      ()=>{
+      (ev)=>{if(ev.bubbles){
         let w = Number(
           (this.rootEl.querySelector(
             "input[type='number'].field-size.field-size--width"
@@ -167,18 +176,20 @@ export class GameView implements IGameView {
             "input[type='number'].field-size.field-size--height" 
           ) as HTMLInputElement).value
           );
-        this.updateGameState({width:w, height:h, isRunning:this.state.isRunning});
+          
+          console.log("field-size--height updateGameState");
+        this.updateGameState({width:w, height:h});}
       }
     );
    
     this.cbFn = new Map();
     this.onFieldSizeChange((width:number, height:number)=>{
-      
+      console.log("change size state" , width, height);
       this.state.width = width;
       this.state.height = height;
     });
     this.onFieldSizeChange((width:number, height:number)=>{
-      
+      console.log("change size input values" , width, height);
       let w  = this.rootEl.querySelector(
           "input[type='number'].field-size.field-size--width"
         ) as HTMLInputElement;
@@ -190,6 +201,7 @@ export class GameView implements IGameView {
       
     });
     this.onFieldSizeChange((width:number, height:number)=>{
+      console.log("change size div cell" , width, height);
       for(let el of this.rootEl.querySelectorAll(".cell")){el.remove();}
       for(let i =0; i< height; i++){
         let par:HTMLElement = document.createElement('div');

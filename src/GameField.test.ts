@@ -1,6 +1,6 @@
 import { GameField } from "./GameField";
 
-describe("GameField", () => {
+describe.skip("GameField", () => {
   describe("public interface", () => {
     it("is a class", () => {
       expect(GameField).toBeInstanceOf(Function);

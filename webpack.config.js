@@ -7,7 +7,7 @@ const path = require("node:path");
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, "./src/app.ts"),
+    main: path.resolve(__dirname, "./src/index.ts"),
   },
   devtool: 'source-map',
   output: {

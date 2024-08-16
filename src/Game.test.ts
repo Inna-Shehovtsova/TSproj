@@ -45,7 +45,7 @@ describe("Game", () => {
     gameField = getGameField();
   });
 
-  it("is a class", () => {
+ it("is a class", () => {
     expect(Game).toBeInstanceOf(Function);
     expect(new Game(gameField, gameView)).toBeInstanceOf(Game);
   });
@@ -93,7 +93,7 @@ describe("Game", () => {
       );
     });
 
-    it("is able to start/stop game with onGameStateChange", async () => {
+   it("is able to start/stop game with onGameStateChange", async () => {
       // https://github.com/codesandbox/codesandbox-client/issues/513
       expect(gameView.updateGameState).toHaveBeenCalledTimes(1);
       expect(gameField.getState).toHaveBeenCalledTimes(1);
