@@ -2,6 +2,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // eslint-disable-next-line
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 // eslint-disable-next-line
 const path = require("node:path");
 
@@ -39,6 +40,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
+    new CopyWebpackPlugin({
+      patterns: [
+        
+        { from: path.resolve(__dirname, "src/style"), to: "style" },
+      ],
+    }),
     new CleanWebpackPlugin(),
   ],
 };

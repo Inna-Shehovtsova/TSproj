@@ -1,7 +1,7 @@
  import { Game } from "./Game";
  import { GameField } from "./GameField";
  import { GameView } from "./GameView";
- import "./styles.css";
+// import "./style/style.css";
 
  const el = document.getElementById("app") as HTMLElement;
 

@@ -205,6 +205,7 @@ export class GameView implements IGameView {
       for(let el of this.rootEl.querySelectorAll(".cell")){el.remove();}
       for(let i =0; i< height; i++){
         let par:HTMLElement = document.createElement('div');
+        par.classList.add("rowcell");
         for (let j = 0; j< width; j++){
           let cell:HTMLElement = document.createElement('div');
           cell.classList.add(this.cssCell);

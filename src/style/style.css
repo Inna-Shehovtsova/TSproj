@@ -1,5 +1,7 @@
 body {
     font-family: sans-serif;
+    flex-direction: row;
+    display:block;
   }
   
   table {
@@ -19,3 +21,6 @@ body {
     background-color: darkcyan;
   }
   
+  .rowcell{
+   flex-direction: row;
+  }
