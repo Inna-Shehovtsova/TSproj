@@ -1,26 +1,26 @@
 body {
-    font-family: sans-serif;
-    flex-direction: row;
-    display:block;
-  }
-  
-  table {
-    border-collapse: collapse;
-    margin: 30px;
-  }
-  
-  .cell {
-    border: 1px solid lightblue;
-    color: lightgray;
-    width: 20px;
-    height: 20px;
-    text-align: center;
-  }
-  
-  .cell--alive {
-    background-color: darkcyan;
-  }
-  
-  .rowcell{
-   flex-direction: row;
-  }
+  font-family: sans-serif;
+  flex-direction: row;
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 30px;
+}
+
+.cell {
+  border: 1px solid lightblue;
+  color: lightgray;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+
+.cell--alive {
+  background-color: darkcyan;
+}
+
+.rowcell {
+  flex-direction: row;
+}

@@ -10,13 +10,13 @@ module.exports = {
   entry: {
     main: path.resolve(__dirname, "./src/index.ts"),
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "[name].bundle.js",
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
@@ -24,10 +24,10 @@ module.exports = {
         test: /\.(?:js|mjs|cjs|ts)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
+          loader: "babel-loader",
+        },
+      },
+    ],
   },
   devServer: {
     static: {
@@ -41,10 +41,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
     new CopyWebpackPlugin({
-      patterns: [
-        
-        { from: path.resolve(__dirname, "src/style"), to: "style" },
-      ],
+      patterns: [{ from: path.resolve(__dirname, "src/style"), to: "style" }],
     }),
     new CleanWebpackPlugin(),
   ],

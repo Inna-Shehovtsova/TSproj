@@ -6,7 +6,7 @@ import { Cell } from "./types/Cell";
 const sleep = (x: number) => new Promise((resolve) => setTimeout(resolve, x));
 
 describe("Game", () => {
-  let stepDurationMs = 10;
+  const stepDurationMs = 10;
   let state: Cell[][];
   let gameField: IGameField;
   let gameView: IGameView;
@@ -18,7 +18,7 @@ describe("Game", () => {
     getState: jest.fn(() => state),
     toggleCellState: jest.fn(),
     nextGeneration: jest.fn(),
-    setSize: jest.fn()
+    setSize: jest.fn(),
   });
 
   const getGameView = (): IGameView => ({
@@ -32,20 +32,20 @@ describe("Game", () => {
     }),
     onFieldSizeChange: jest.fn((cb) => {
       onFieldSizeChange = jest.fn(cb);
-    })
+    }),
   });
 
   beforeEach(() => {
     state = [
       [Math.random(), Math.random()],
       [Math.random(), Math.random()],
-      [Math.random(), Math.random()]
+      [Math.random(), Math.random()],
     ];
     gameView = getGameView();
     gameField = getGameField();
   });
 
- it("is a class", () => {
+  it("is a class", () => {
     expect(Game).toBeInstanceOf(Function);
     expect(new Game(gameField, gameView)).toBeInstanceOf(Game);
   });
@@ -62,7 +62,7 @@ describe("Game", () => {
       expect(gameView.updateGameState).toHaveBeenCalledWith({
         isRunning: false,
         width: state[0].length,
-        height: state.length
+        height: state.length,
       });
     });
 
@@ -78,7 +78,7 @@ describe("Game", () => {
         [1, 2, 3],
         [1, 2, 3],
         [1, 2, 3],
-        [1, 2, 3]
+        [1, 2, 3],
       ];
       const width = state[0].length;
       const height = state.length;
@@ -88,12 +88,12 @@ describe("Game", () => {
       expect(gameView.updateGameState).toHaveBeenCalledWith(
         expect.objectContaining({
           width,
-          height
-        })
+          height,
+        }),
       );
     });
 
-   it("is able to start/stop game with onGameStateChange", async () => {
+    it("is able to start/stop game with onGameStateChange", async () => {
       // https://github.com/codesandbox/codesandbox-client/issues/513
       expect(gameView.updateGameState).toHaveBeenCalledTimes(1);
       expect(gameField.getState).toHaveBeenCalledTimes(1);
