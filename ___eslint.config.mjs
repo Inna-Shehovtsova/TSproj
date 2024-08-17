@@ -20,7 +20,7 @@ export default tseslint.config(
     rules: {
       ...jest.configs["flat/recommended"].rules,
       "jest/prefer-expect-assertions": "off",
-      "jest/no-deprecated-functions":"warn"
+      "jest/no-deprecated-functions": "warn",
     },
   },
 );

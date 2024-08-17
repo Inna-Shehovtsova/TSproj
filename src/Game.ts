@@ -3,8 +3,8 @@ import { GameView, IGameView } from "./GameView";
 import { Cell } from "./types/Cell";
 
 export interface IGame {
-    getGameState():Cell[][];
-    getGameStep():number;
+  getGameState(): Cell[][];
+  getGameStep(): number;
 }
 export class Game implements IGame {
   field: IGameField;
@@ -13,10 +13,12 @@ export class Game implements IGame {
   state: Cell[][];
   maxGenerations: number;
   timerId: NodeJS.Timeout | string | number | undefined;
-  getGameState(){
+  getGameState() {
     return this.state;
   }
-  getGameStep(){return this.stepDurationMs;}
+  getGameStep() {
+    return this.stepDurationMs;
+  }
   constructor(field: IGameField, view: IGameView, dur: number = 5) {
     this.field = field;
     this.view = view;
@@ -42,19 +44,16 @@ export class Game implements IGame {
     this.view.onGameStateChange((isPlay) => {
       this.view.updateGameState({ isRunning: isPlay });
       if (isPlay) {
-       
         this.field.nextGeneration();
         this.state = this.field.getState();
         this.view.updateGameField(this.state);
 
         this.timerId = setInterval(() => {
-          
           this.field.nextGeneration();
           this.state = this.field.getState();
           this.view.updateGameField(this.state);
         }, this.stepDurationMs);
       } else {
-        
         clearInterval(this.timerId);
         this.state = this.field.getState();
         this.view.updateGameField(this.state);
