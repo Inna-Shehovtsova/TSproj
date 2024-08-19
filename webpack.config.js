@@ -1,9 +1,8 @@
-// eslint-disable-next-line
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// eslint-disable-next-line
+
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-// eslint-disable-next-line
+
 const path = require("node:path");
 const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
