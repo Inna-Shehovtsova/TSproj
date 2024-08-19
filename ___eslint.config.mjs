@@ -19,8 +19,8 @@ export default tseslint.config(
     ...jest.configs["flat/recommended"],
     rules: {
       ...jest.configs["flat/recommended"].rules,
-      "jest/prefer-expect-assertions": "off",
-      "jest/no-deprecated-functions": "warn",
+      "jest/prefer-expect-assertions": "off"
     },
   },
 );
+
