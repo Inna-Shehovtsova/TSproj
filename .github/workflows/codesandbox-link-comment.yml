@@ -1,4 +1,4 @@
-name: WeaterForecast CodeSandboxLink
+name: Game of life CodeSandboxLink
 
 on:
   pull_request:

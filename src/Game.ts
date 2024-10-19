@@ -27,7 +27,7 @@ export class Game implements IGame {
     this.timerId = undefined;
     this.view.onFieldSizeChange((width, height) => {
       this.field.setSize(width, height);
-      this.state = field.getState();
+      this.state = this.field.getState();
       //console.log('updateGameField size', this.state);
       this.view.updateGameState({ width: width, height: height });
       this.view.updateGameField(this.state);
@@ -36,7 +36,7 @@ export class Game implements IGame {
 
     this.view.onCellClick((x, y) => {
       this.field.toggleCellState(x, y);
-      this.state = field.getState();
+      this.state = this.field.getState();
       console.log("updateGameField cellclick", this.state);
       this.view.updateGameField(this.state);
     });

@@ -1,6 +1,6 @@
 import { GameView } from "./GameView";
 
-describe.skip("GameView", () => {
+describe("GameView", () => {
   let el: HTMLElement;
   beforeEach(() => {
     el = document.createElement("div");
@@ -153,6 +153,18 @@ describe.skip("GameView", () => {
       );
       expect(onGameStateChange).toHaveBeenCalledWith(true);
     });
+
+    it("can check is dead", ()=>{
+      const onGameStateChange = jest.fn();
+      gameView.updateGameField([[1,0],[0 ,0]]);
+      gameView.updateGameState({ isRunning: true });
+      expect(gameView.state.isRunning).toBeTruthy();
+      //expect(onGameStateChange).toHaveBeenCalledWith(false);
+      gameView.updateGameField([[0,0],[0 ,0]]);      
+     // expect(onGameStateChange).toHaveBeenCalledWith(true);
+      expect(gameView.state.isRunning).toBeFalsy();
+    });
+
     it("calls onFieldSizeChange on field size change interaction", () => {
       const onFieldSizeChange = jest.fn();
       gameView.onFieldSizeChange(onFieldSizeChange);

@@ -28,61 +28,69 @@ export class GameField implements IGameField {
   getState(): Cell[][] {
     return this.state;
   }
-  toggleCellState(x: number, y: number): void {
+  toggleCellState(x: number, y: number, state:Cell[][]=this.state): void {
     //console.log("toggle x ", x, " y ", y, " state ", this.state[y][x]," all ",  this.state) ;
-    this.state[y][x] = this.state[y][x] ? 0 : 1;
+    state[y][x] = state[y][x] ? 0 : 1;
     //console.log("end toggle x ", x, " y ", y, " state ", this.state[y][x]," all ",  this.state) ;
   }
-  needChange(x: number, y: number, newNeed: boolean = false): boolean {
+  makeAlive(x: number, y: number, state:Cell[][]=this.state): boolean {
     const i_init: number = Math.max(x - 1, 0);
     const j_init: number = Math.max(y - 1, 0);
-    const maxX: number = Math.min(this.state.length, x + 2);
-    const maxY: number = Math.min(this.state[x].length, y + 2);
+    const maxX: number = Math.min(state.length, x + 2);
+    const maxY: number = Math.min(state[x].length, y + 2);
     //console.log("needChange i", i_init, " j ", j_init, " mX ", maxX, " my ", maxY, ' x ', x, ' y ', y);
     let sum: number = 0;
     for (let i = i_init; i < maxX; ++i) {
       for (let j = j_init; j < maxY; ++j) {
-        sum += this.state[i][j];
+        sum += state[i][j];
       }
     }
-    let needChange: boolean = false;
-    if (newNeed) {
-      if (this.state[x][y] == 0) needChange = sum === 3;
-    } else {
-      if (this.state[x][y] == 1) {
-        needChange = sum < 3 || sum > 4;
-      }
-    }
+    let makeAliveTrue = false;
+    if (state[x][y] == 0) makeAliveTrue = sum === 3;
+   
+    if (state[x][y] == 1) {
+      makeAliveTrue = sum >2 && sum < 5; 
+    } 
 
-    //console.log("needChange sum ", sum, " change ", needChange);
-    return needChange;
+    //console.log("needChange sum ", sum, " change ", makeAliveTrue);
+    return makeAliveTrue;
   }
+
+  growNew(prevState:Cell[][]):Cell[][]{
+    let n = this.makeField(prevState[0].length, prevState.length);
+    for (let i: number = 0; i < prevState.length; i++) {
+      for (let j: number = 0; j < prevState[i].length; j++) {
+        if (this.makeAlive(i, j, prevState)) {
+          this.toggleCellState(j, i, n);
+        }
+      }
+    }
+    //console.log("grow new", n);
+    return n;
+  }
+  
   nextGeneration(): void {
-    const GrowNew = true;
-    for (let i: number = 0; i < this.state.length; i++) {
-      for (let j: number = 0; j < this.state[i].length; j++) {
-        if (this.needChange(i, j, GrowNew)) {
-          this.toggleCellState(j, i);
-        }
-      }
-    }
-    for (let i: number = 0; i < this.state.length; i++) {
-      for (let j: number = 0; j < this.state[i].length; j++) {
-        if (this.needChange(i, j)) {
-          this.toggleCellState(j, i);
-        }
-      }
-    }
+    //console.log(' state 0 ', this.state);
+    this.state = this.growNew(this.state)
+    //console.log('next state 1 ', this.state);
+ 
+    this.nextState =this.growNew(this.state);
+    //console.log('next state 2', this.nextState);
   }
 
-  setSize(width: number, height: number): void {
+  copyToNextSize(width: number, height: number, state:Cell[][]){
     const nState: Cell[][] = this.makeField(width, height);
 
-    for (let i: number = 0; i < Math.min(this.state.length, height); i++) {
-      for (let j: number = 0; j < Math.min(this.state[i].length, width); j++) {
-        nState[i][j] = this.state[i][j];
+    for (let i: number = 0; i < Math.min(state.length, height); i++) {
+      for (let j: number = 0; j < Math.min(state[i].length, width); j++) {
+        nState[i][j] = state[i][j];
       }
     }
-    this.state = nState;
+    return nState;
+  }
+
+  setSize(width: number, height: number): void {    
+    this.state = this.copyToNextSize(width, height, this.state);
+    this.nextState = this.copyToNextSize(width, height, this.nextState );
   }
 }

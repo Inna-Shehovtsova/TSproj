@@ -31,18 +31,25 @@ export class GameView implements IGameView {
   state: State;
   cbFn: Map<string, Set<Function>>;
 
+  notDead(state:Cell[][]):boolean{
+    let sum = state.reduce((sum, el)=>sum = sum+ el.reduce((s, e)=>s = s+e, 0), 0);
+    return sum > 0;
+  }
   updateGameField(field: Cell[][]): void {
     console.log("!!!!updateGameField inner ", field);
+    const runningStatus = this.notDead(field) && this.state.isRunning;
     if (
       this.state.height != field.length ||
       this.state.width != field[0].length
+      ||
+      this.state.isRunning != runningStatus
     ) {
-      console.log(
-        "updateGameField .updateGameState",
-        field[0].length,
-        field.length,
-      );
-      this.updateGameState({ width: field[0].length, height: field.length });
+      // console.log(
+      //   "updateGameField .updateGameState",
+      //   field[0].length,
+      //   field.length,
+      // );
+      this.updateGameState({ width: field[0].length, height: field.length, isRunning:runningStatus });
     }
     for (let i = 0; i < this.state.height; i++) {
       for (let j = 0; j < this.state.width; j++) {
@@ -66,7 +73,7 @@ export class GameView implements IGameView {
     console.log("updateGameState ", state);
     state.width ??= this.state.width;
     state.height ??= this.state.height;
-    if (state.width != this.state.width || state.width != this.state.height) {
+    if (state.width != this.state.width || state.height != this.state.height) {
       this.cbFn.get("onFieldSizeChange")?.forEach((v1, v2, set) => {
         v1(state.width, state.height);
       });
@@ -149,7 +156,7 @@ export class GameView implements IGameView {
             ) as HTMLInputElement
           ).value,
         );
-        if (ev.bubbles)
+       // if (ev.bubbles)
           this.updateGameState({
             width: w,
             height: h,
@@ -161,7 +168,8 @@ export class GameView implements IGameView {
     this.rootEl
       .querySelector(".field-size.field-size--width")
       ?.addEventListener("change", (ev) => {
-        if (ev.bubbles) {
+        
+        //if (ev.bubbles) {
           const w = Number(
             (
               this.rootEl.querySelector(
@@ -179,12 +187,12 @@ export class GameView implements IGameView {
 
           console.log("field-size--width updateGameState");
           this.updateGameState({ width: w, height: h });
-        }
+        //}
       });
     this.rootEl
       .querySelector(".field-size.field-size--height")
       ?.addEventListener("change", (ev) => {
-        if (ev.bubbles) {
+       // if (ev.bubbles) {
           const w = Number(
             (
               this.rootEl.querySelector(
@@ -201,8 +209,10 @@ export class GameView implements IGameView {
           );
 
           console.log("field-size--height updateGameState");
+          
           this.updateGameState({ width: w, height: h });
-        }
+          console.log("after_update game state");
+       // }
       });
 
     this.cbFn = new Map();

@@ -1,6 +1,6 @@
 import { GameField } from "./GameField";
 
-describe.skip("GameField", () => {
+describe("GameField", () => {
   describe("public interface", () => {
     it("is a class", () => {
       expect(GameField).toBeInstanceOf(Function);
@@ -65,7 +65,7 @@ describe.skip("GameField", () => {
         [0, 1],
       ]);
       gameField.nextGeneration();
-      //console.log('l 69  ', gameField.getState());
+      console.log('l 69  ', gameField.getState());
       expect(gameField.getState()).toEqual([
         [0, 0],
         [0, 0],
@@ -111,5 +111,6 @@ describe.skip("GameField", () => {
         [0, 1],
       ]);
     });
+    
   });
 });
