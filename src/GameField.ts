@@ -28,12 +28,12 @@ export class GameField implements IGameField {
   getState(): Cell[][] {
     return this.state;
   }
-  toggleCellState(x: number, y: number, state:Cell[][]=this.state): void {
+  toggleCellState(x: number, y: number, state: Cell[][] = this.state): void {
     //console.log("toggle x ", x, " y ", y, " state ", this.state[y][x]," all ",  this.state) ;
     state[y][x] = state[y][x] ? 0 : 1;
     //console.log("end toggle x ", x, " y ", y, " state ", this.state[y][x]," all ",  this.state) ;
   }
-  makeAlive(x: number, y: number, state:Cell[][]=this.state): boolean {
+  makeAlive(x: number, y: number, state: Cell[][] = this.state): boolean {
     const i_init: number = Math.max(x - 1, 0);
     const j_init: number = Math.max(y - 1, 0);
     const maxX: number = Math.min(state.length, x + 2);
@@ -47,17 +47,17 @@ export class GameField implements IGameField {
     }
     let makeAliveTrue = false;
     if (state[x][y] == 0) makeAliveTrue = sum === 3;
-   
+
     if (state[x][y] == 1) {
-      makeAliveTrue = sum >2 && sum < 5; 
-    } 
+      makeAliveTrue = sum > 2 && sum < 5;
+    }
 
     //console.log("needChange sum ", sum, " change ", makeAliveTrue);
     return makeAliveTrue;
   }
 
-  growNew(prevState:Cell[][]):Cell[][]{
-    let n = this.makeField(prevState[0].length, prevState.length);
+  growNew(prevState: Cell[][]): Cell[][] {
+    const n = this.makeField(prevState[0].length, prevState.length);
     for (let i: number = 0; i < prevState.length; i++) {
       for (let j: number = 0; j < prevState[i].length; j++) {
         if (this.makeAlive(i, j, prevState)) {
@@ -68,17 +68,17 @@ export class GameField implements IGameField {
     //console.log("grow new", n);
     return n;
   }
-  
+
   nextGeneration(): void {
     //console.log(' state 0 ', this.state);
-    this.state = this.growNew(this.state)
+    this.state = this.growNew(this.state);
     //console.log('next state 1 ', this.state);
- 
-    this.nextState =this.growNew(this.state);
+
+    this.nextState = this.growNew(this.state);
     //console.log('next state 2', this.nextState);
   }
 
-  copyToNextSize(width: number, height: number, state:Cell[][]){
+  copyToNextSize(width: number, height: number, state: Cell[][]) {
     const nState: Cell[][] = this.makeField(width, height);
 
     for (let i: number = 0; i < Math.min(state.length, height); i++) {
@@ -89,8 +89,8 @@ export class GameField implements IGameField {
     return nState;
   }
 
-  setSize(width: number, height: number): void {    
+  setSize(width: number, height: number): void {
     this.state = this.copyToNextSize(width, height, this.state);
-    this.nextState = this.copyToNextSize(width, height, this.nextState );
+    this.nextState = this.copyToNextSize(width, height, this.nextState);
   }
 }

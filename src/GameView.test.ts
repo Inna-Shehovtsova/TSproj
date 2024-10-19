@@ -154,14 +154,20 @@ describe("GameView", () => {
       expect(onGameStateChange).toHaveBeenCalledWith(true);
     });
 
-    it("can check is dead", ()=>{
+    it("can check is dead", () => {
       const onGameStateChange = jest.fn();
-      gameView.updateGameField([[1,0],[0 ,0]]);
+      gameView.updateGameField([
+        [1, 0],
+        [0, 0],
+      ]);
       gameView.updateGameState({ isRunning: true });
       expect(gameView.state.isRunning).toBeTruthy();
       //expect(onGameStateChange).toHaveBeenCalledWith(false);
-      gameView.updateGameField([[0,0],[0 ,0]]);      
-     // expect(onGameStateChange).toHaveBeenCalledWith(true);
+      gameView.updateGameField([
+        [0, 0],
+        [0, 0],
+      ]);
+      // expect(onGameStateChange).toHaveBeenCalledWith(true);
       expect(gameView.state.isRunning).toBeFalsy();
     });
 

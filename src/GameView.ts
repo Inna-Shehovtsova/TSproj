@@ -31,8 +31,11 @@ export class GameView implements IGameView {
   state: State;
   cbFn: Map<string, Set<Function>>;
 
-  notDead(state:Cell[][]):boolean{
-    let sum = state.reduce((sum, el)=>sum = sum+ el.reduce((s, e)=>s = s+e, 0), 0);
+  notDead(state: Cell[][]): boolean {
+    const sum = state.reduce(
+      (sum, el) => (sum = sum + el.reduce((s, e) => (s = s + e), 0)),
+      0,
+    );
     return sum > 0;
   }
   updateGameField(field: Cell[][]): void {
@@ -40,8 +43,7 @@ export class GameView implements IGameView {
     const runningStatus = this.notDead(field) && this.state.isRunning;
     if (
       this.state.height != field.length ||
-      this.state.width != field[0].length
-      ||
+      this.state.width != field[0].length ||
       this.state.isRunning != runningStatus
     ) {
       // console.log(
@@ -49,7 +51,11 @@ export class GameView implements IGameView {
       //   field[0].length,
       //   field.length,
       // );
-      this.updateGameState({ width: field[0].length, height: field.length, isRunning:runningStatus });
+      this.updateGameState({
+        width: field[0].length,
+        height: field.length,
+        isRunning: runningStatus,
+      });
     }
     for (let i = 0; i < this.state.height; i++) {
       for (let j = 0; j < this.state.width; j++) {
@@ -156,63 +162,62 @@ export class GameView implements IGameView {
             ) as HTMLInputElement
           ).value,
         );
-       // if (ev.bubbles)
-          this.updateGameState({
-            width: w,
-            height: h,
-            isRunning: !this.state.isRunning,
-          });
+        // if (ev.bubbles)
+        this.updateGameState({
+          width: w,
+          height: h,
+          isRunning: !this.state.isRunning,
+        });
       });
     //for jest test
     this.rootEl.querySelector(".run-button").innerHTML = `${this.bTextRun}`;
     this.rootEl
       .querySelector(".field-size.field-size--width")
       ?.addEventListener("change", (ev) => {
-        
         //if (ev.bubbles) {
-          const w = Number(
-            (
-              this.rootEl.querySelector(
-                "input[type='number'].field-size.field-size--width",
-              ) as HTMLInputElement
-            ).value,
-          );
-          const h = Number(
-            (
-              this.rootEl.querySelector(
-                "input[type='number'].field-size.field-size--height",
-              ) as HTMLInputElement
-            ).value,
-          );
+        const w = Number(
+          (
+            this.rootEl.querySelector(
+              "input[type='number'].field-size.field-size--width",
+            ) as HTMLInputElement
+          ).value,
+        );
+        const h = Number(
+          (
+            this.rootEl.querySelector(
+              "input[type='number'].field-size.field-size--height",
+            ) as HTMLInputElement
+          ).value,
+        );
 
-          console.log("field-size--width updateGameState");
-          this.updateGameState({ width: w, height: h });
+        console.log("field-size--width updateGameState");
+        this.updateGameState({ width: w, height: h });
         //}
       });
     this.rootEl
       .querySelector(".field-size.field-size--height")
       ?.addEventListener("change", (ev) => {
-       // if (ev.bubbles) {
-          const w = Number(
-            (
-              this.rootEl.querySelector(
-                "input[type='number'].field-size.field-size--width",
-              ) as HTMLInputElement
-            ).value,
-          );
-          const h = Number(
-            (
-              this.rootEl.querySelector(
-                "input[type='number'].field-size.field-size--height",
-              ) as HTMLInputElement
-            ).value,
-          );
+        // if (ev.bubbles) {
+        const w = Number(
+          (
+            this.rootEl.querySelector(
+              "input[type='number'].field-size.field-size--width",
+            ) as HTMLInputElement
+          ).value,
+        );
+        const h = Number(
+          (
+            this.rootEl.querySelector(
+              "input[type='number'].field-size.field-size--height",
+            ) as HTMLInputElement
+          ).value,
+        );
 
-          console.log("field-size--height updateGameState");
-          
-          this.updateGameState({ width: w, height: h });
-          console.log("after_update game state");
-       // }
+        console.log("field-size--height updateGameState");
+
+        this.updateGameState({ width: w, height: h });
+        console.log("after_update game state");
+        // }
       });
 
     this.cbFn = new Map();

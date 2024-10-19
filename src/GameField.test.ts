@@ -65,7 +65,7 @@ describe("GameField", () => {
         [0, 1],
       ]);
       gameField.nextGeneration();
-      console.log('l 69  ', gameField.getState());
+      console.log("l 69  ", gameField.getState());
       expect(gameField.getState()).toEqual([
         [0, 0],
         [0, 0],
@@ -111,6 +111,5 @@ describe("GameField", () => {
         [0, 1],
       ]);
     });
-    
   });
 });
